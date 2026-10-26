@@ -1,0 +1,16 @@
+#
+#
+#
+#
+
+identifier: imxrt1176_som/mimxrt1176/cm7
+name: Calixto IMXRT1176 SOM CM7
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+ram: 256
+flash: 8192
+vendor: nxp

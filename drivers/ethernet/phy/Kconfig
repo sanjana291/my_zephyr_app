@@ -1,0 +1,7 @@
+config PHY_TI_DP83822
+	bool "TI DP83822 PHY Driver"
+	default y
+	select MDIO
+	depends on DT_HAS_TI_DP83822_ENABLED
+	help
+	  Enable TI DP83822 Ethernet PHY Driver

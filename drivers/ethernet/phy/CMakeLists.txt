@@ -1,0 +1,1 @@
+zephyr_library_sources_ifdef(CONFIG_PHY_TI_DP83822 phy_ti_dp83822.c)

@@ -1,0 +1,25 @@
+
+/dts-v1/;
+
+#include <nxp/nxp_rt11xx_cm4.dtsi>
+#include "imxrt1176_som.dtsi"
+
+/ {
+	model = "Calixto imxrt1176 som";
+	compatible = "nxp,mimxrt1176";
+
+	chosen {
+    zephyr,flash-controller = &w25q64jv_ctrl;
+    zephyr,flash = &w25q64jv;
+    zephyr,sram = &ocram2;
+    nxp,m4-partition = &slot1_partition;
+	};
+};
+
+&gpt_hw_timer {
+	status = "okay";
+};
+
+&systick {
+	status = "okay";
+};

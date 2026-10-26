@@ -1,0 +1,31 @@
+description: Texas Instruments DP83822 10/100 Mbps Ethernet PHY device
+
+compatible: "ti,dp83822"
+
+include: ethernet-phy.yaml
+
+properties:
+  ti,rmii-mode:
+    type: string
+    required: true
+    description: |
+      RMII clock role for the DP83822.
+
+      "master" - RMII Master (Leader) mode: the PHY uses a 25 MHz crystal
+      or CMOS oscillator on its XI pin as the reference clock and drives a
+      50 MHz output clock on GPIO3 (RX_D3 pin) to the MAC REF_CLK input.
+      Use this when the board provides a 25 MHz source to the PHY and expects
+      the PHY to supply the 50 MHz REF_CLK to the MAC.
+
+      "slave"  - RMII Slave (Follower) mode: the MAC supplies a 50 MHz CMOS
+      oscillator that feeds the PHY's XI pin directly.  Both the MAC and the
+      PHY share the same 50 MHz reference.
+      Use this when the board provides a 50 MHz clock to the PHY XI pin.
+
+      Selects RCSR register (0x17) bits:
+        RMII_MODE_EN  (bit 5) = 1 in both cases
+        RMII_MODE_SEL (bit 7) = 0 for master, 1 for slave
+
+    enum:
+      - "master"
+      - "slave"

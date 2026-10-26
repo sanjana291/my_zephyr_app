@@ -1,0 +1,16 @@
+#
+#
+#
+#
+
+identifier: imxrt1176_som/mimxrt1176/cm4
+name: Calixto IMXRT1176 SOM CM4
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+ram: 128
+flash: 128
+vendor: nxp
