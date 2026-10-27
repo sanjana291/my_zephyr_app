@@ -1,0 +1,71 @@
+/*
+ * Copyright 2026 Calixto Systems Pvt Ltd
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+#include <zephyr/dt-bindings/adc/mcux-lpadc.h>
+
+ / {
+
+	zephyr,user {
+		io-channels = <&lpadc1 2>;
+	};
+
+	chosen {
+		zephyr,console = &lpuart10;
+		zephyr,shell-uart = &lpuart10;
+	};
+
+};
+
+&pinctrl{
+
+	pinmux_lpuart10: pinmux_lpuart10 {
+		group0 {
+			pinmux = <&iomuxc_gpio_ad_15_lpuart10_tx>,
+				<&iomuxc_gpio_ad_16_lpuart10_rx>;
+			drive-strength = "high";
+			bias-pull-up;
+			slew-rate = "fast";
+		};
+	};
+
+	pinmux_adc12a: pinmux_adc12a {
+		group0 {
+			pinmux = <&iomuxc_gpio_ad_10_adc1_ch2a>;
+			drive-strength = "high";
+			slew-rate = "fast";
+			bias-pull-down;
+			input-enable;
+		};
+	};
+
+};
+
+&lpuart10 {
+    status = "okay";
+	pinctrl-0 = <&pinmux_lpuart10>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+};
+
+&lpadc1 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+    status = "okay";
+	/*
+	 * To use this sample:
+	 * - Connect LPADC1 CH2 signal to voltage between 0 - 1.8V (J9 pin 23)
+	 */
+	pinctrl-0 = <&pinmux_adc12a>;
+	pinctrl-names = "default";
+	channel@2 {
+		reg = <2>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_EXTERNAL0";
+		zephyr,vref-mv = <1800>;
+		zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_TICKS, 7)>;
+		zephyr,resolution = <12>;
+		zephyr,input-positive = <MCUX_LPADC_CH2A>;
+	};
+};

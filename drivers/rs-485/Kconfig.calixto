@@ -1,0 +1,6 @@
+config RS_485_CALIXTO
+    bool "Calixto RS-485 driver support"
+    default y
+    depends on DT_HAS_CALIXTO_RS_485_ENABLED
+    help
+      Enables support for the Calixto RS-485 driver.

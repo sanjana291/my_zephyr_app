@@ -1,1 +1,2 @@
 add_subdirectory_ifdef(CONFIG_ETH_DRIVER ethernet)
+add_subdirectory_ifdef(CONFIG_RS_485 rs-485)

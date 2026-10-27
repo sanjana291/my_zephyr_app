@@ -1,7 +1,6 @@
 #include "imxrt1176_som-pinctrl.dtsi"
-#include <nxp/imxrt/imxrt11xx/nxp_rt1170.dtsi>
+#include <nxp/imxrt/nxp_rt1170.dtsi>
 
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 &flexspi {
 	pinctrl-0 = <&pinmux_flexspi1>;

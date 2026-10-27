@@ -1,0 +1,18 @@
+description: Calixto RS-485 transceiver attached to a UART
+compatible: "calixto,rs-485"
+
+include: base.yaml
+on-bus: uart
+
+properties:
+  rs-485-gpios:
+    type: phandle-array
+    required: true
+    description: DE/RE control pin (active = transmit)
+
+  post-tx-delay-us:
+    type: int
+    default: 0
+    description: |
+      Delay after the last byte is written, before releasing the bus.
+      Roughly one character time, e.g. ~100 us at 115200 8N1.

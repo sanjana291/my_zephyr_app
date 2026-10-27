@@ -1,0 +1,199 @@
+/*
+ * Copyright 2026 Calixto Systems Pvt Ltd
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
+ / {
+
+
+	chosen {
+        zephyr,console = &lpuart10;
+		zephyr,shell-uart = &lpuart10;
+	};
+
+};
+
+
+
+&pinctrl{
+
+	pinmux_lpuart10: pinmux_lpuart10 {
+		group0 {
+			pinmux = <&iomuxc_gpio_ad_15_lpuart10_tx>,
+				<&iomuxc_gpio_ad_16_lpuart10_rx>;
+			drive-strength = "high";
+			bias-pull-up;
+			slew-rate = "fast";
+		};
+	};
+
+	pinmux_enet0: pinmux_enet0 {
+		group0 {
+			pinmux = <&iomuxc_gpio_disp_b2_06_enet_rdata00>,
+				<&iomuxc_gpio_disp_b2_07_enet_rdata01>;
+			drive-strength = "high";
+			bias-pull-down;
+			slew-rate = "fast";
+			input-enable;
+		};
+		group1 {
+			pinmux = <&iomuxc_gpio_disp_b2_09_enet_rx_er>,
+				<&iomuxc_gpio_disp_b2_08_enet_rx_en>;
+			drive-strength = "high";
+			bias-pull-down;
+			slew-rate = "fast";
+		};
+		group2 {
+			pinmux = <&iomuxc_gpio_disp_b2_03_enet_tdata01>,
+				<&iomuxc_gpio_disp_b2_02_enet_tdata00>,
+				<&iomuxc_gpio_disp_b2_04_enet_tx_en>;
+			drive-strength = "high";
+			slew-rate = "fast";
+		};
+		group4 {
+			pinmux = <&iomuxc_gpio_disp_b2_05_enet_ref_clk>;
+			drive-strength = "high";
+			slew-rate = "slow";
+			input-enable;
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_enet0_mdio: pinmux_enet0_mdio {
+		group0 {
+			pinmux = <&iomuxc_gpio_ad_33_enet_mdio>,
+				<&iomuxc_gpio_ad_32_enet_mdc>;
+			drive-strength = "high";
+			slew-rate = "fast";
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_enet0_ptp: pinmux_enet0_ptp {
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_enet1: pinmux_enet1 {
+		group0 {
+			pinmux = <&iomuxc_gpio_disp_b1_01_enet_1g_rx_er>,
+				<&iomuxc_gpio_disp_b1_00_enet_1g_rx_en>;
+			drive-strength = "high";
+			bias-pull-down;
+		};
+		group1 {
+			pinmux = <&iomuxc_gpio_disp_b1_02_enet_1g_rdata00>,
+				<&iomuxc_gpio_disp_b1_03_enet_1g_rdata01>;
+			drive-strength = "high";
+			bias-pull-down;
+			input-enable;
+		};
+		group2 {
+			pinmux = <&iomuxc_gpio_disp_b1_08_enet_1g_tdata01>,
+				<&iomuxc_gpio_disp_b1_09_enet_1g_tdata00>,
+				<&iomuxc_gpio_disp_b1_10_enet_1g_tx_en>;
+			drive-strength = "high";
+			bias-disable;
+		};
+		group3 {
+			pinmux = <&iomuxc_gpio_disp_b1_11_enet_1g_ref_clk1>;
+			drive-strength = "high";
+			bias-disable;
+			input-enable;
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_enet1_mdio: pinmux_enet1_mdio {
+		group0 {
+			pinmux = <&iomuxc_gpio_emc_b2_20_enet_1g_mdio>,
+				<&iomuxc_gpio_emc_b2_19_enet_1g_mdc>;
+			drive-strength = "high";
+			bias-pull-down;
+		};
+	};
+
+	/* Configures pin routing and optionally pin electrical features. */
+	pinmux_enet1_ptp: pinmux_enet1_ptp {
+	};
+
+
+
+};
+
+
+
+
+&lpuart10 {
+	status = "okay";
+
+	pinctrl-0 = <&pinmux_lpuart10>;
+	pinctrl-names = "default";
+
+	current-speed = <115200>;
+};
+
+&enet {
+	status = "okay";
+};
+
+&enet_mac {
+	pinctrl-0 = <&pinmux_enet0>;
+	pinctrl-names = "default";
+  	status = "okay";
+  	phy-handle = <&dp83822>;
+  	phy-connection-type = "rmii";
+  	zephyr,random-mac-address;
+};
+
+&enet_mdio {
+	status = "okay";
+	pinctrl-0 = <&pinmux_enet0_mdio>;
+	pinctrl-names = "default";
+	dp83822: phy@0 {
+		compatible = "ti,dp83822";
+		reg = <0>;
+		status = "okay";
+		ti,rmii-mode = "slave";
+	};
+};
+
+&enet_ptp_clock {
+	status = "okay";
+	pinctrl-0 = <&pinmux_enet0_ptp>;
+	pinctrl-names = "default";
+};
+
+
+// &enet1g{
+// 	pinctrl-0 = <&pinmux_enet1>;
+// 	pinctrl-names = "default";
+// 	status = "okay";
+// };
+
+// &enet1g_mac {
+// 	status = "okay";
+
+// 	phy-handle = <&dp83822>;
+// 	phy-connection-type = "rmii";
+// 	zephyr,random-mac-address;
+// };
+
+// &enet1g_mdio {
+// 	status = "okay";
+// 	pinctrl-0 = <&pinmux_enet1_mdio>;
+// 	pinctrl-names = "default";
+// 	dp83822: phy@1 {
+// 		compatible = "ti,dp83822";
+// 		reg = <1>;
+// 		status = "okay";
+// 		ti,rmii-mode = "slave";
+// 	};
+// };
+
+// &enet1g_ptp_clock {
+// 	status = "okay";
+// 	pinctrl-0 = <&pinmux_enet1_ptp>;
+// 	pinctrl-names = "default";
+// };

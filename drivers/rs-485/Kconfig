@@ -1,0 +1,21 @@
+config RS_485
+    bool "RS-485 driver support"
+    help
+      Enables support for RS-485 communication using UART.
+
+if RS_485
+
+config RS_485_LOG_LEVEL
+    int "Default log level"
+    default 3
+    help
+      Select the default log level for the RS-485 driver. The levels are:
+      0: None, 1: Error, 2: Warning, 3: Info, 4: Debug.
+
+module = RS_485
+module-str = rs-485
+source "subsys/logging/Kconfig.template.log_config"
+
+rsource "Kconfig.calixto"
+
+endif # RS_485
